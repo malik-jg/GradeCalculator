@@ -6,6 +6,8 @@ package malikjg.gradecalculatorapp;
 
 import java.sql.*;
 import javax.swing.*;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
  *
@@ -801,6 +803,7 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void signinButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signinButtonActionPerformed
+        createLoginTable();
         welcomeScreen.setVisible(false);
         signinScreen.setVisible(true);
     }//GEN-LAST:event_signinButtonActionPerformed
@@ -829,12 +832,17 @@ public class MainFrame extends javax.swing.JFrame {
                 homeScreen.setVisible(true);
                 user = new UserProfile(username);
                 welcomeNameLabel.setText("Welcome " + user.getUserName());
+                getUserClasses(username);
+                
+                
+                
                 gpaLabel.setText("GPA: " + user.getGPA());
             }
             else{
                 JOptionPane.showMessageDialog(this, "Cannot Find User " + username);
             }
-            
+            getUserClasses(user.getUserName());
+            getUserAssignments(user.getUserName());
             
             //PreparedStatement st = connection.prepareStatement("DELETE FROM USERPASS WHERE username = ?");
             //st.setString(1,"Malik Gomez");
@@ -894,11 +902,17 @@ public class MainFrame extends javax.swing.JFrame {
                 }
             }
             if(!userExists){
-                preparedStatement = connection.prepareStatement("INSERT INTO USERPASS (username, password, name) VALUES (?, ?, ?)");
+                preparedStatement = connection.prepareStatement("INSERT INTO USERPASS (username, password, name, gpa) VALUES (?, ?, ?, ?)");
                 preparedStatement.setString(1, username);
                 preparedStatement.setString(2, password);
                 preparedStatement.setString(3, name);
+                preparedStatement.setDouble(4, 0.0);
                 preparedStatement.executeUpdate();
+                
+                String createClassesTable = "CREATE TABLE \"CLASSES-" + username + "\" (CLASSNAME VARCHAR(256), GRADE DOUBLE, LETTERGRADE VARCHAR(256))";
+                statement = connection.createStatement();
+                statement.executeUpdate(createClassesTable);
+                
                 JOptionPane.showMessageDialog(this, "User Successfully Registered");
                 signupScreen.setVisible(false);
                 signinScreen.setVisible(true);
@@ -913,6 +927,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_upRegisterButtonActionPerformed
 
     private void signupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupButtonActionPerformed
+        createLoginTable();
         welcomeScreen.setVisible(false);
         signupScreen.setVisible(true);
         upNameField.setText("");
@@ -1057,6 +1072,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void signoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signoutButtonActionPerformed
         homeScreen.setVisible(false);
         welcomeScreen.setVisible(true);
+        updateTables(user.getUserName());
     }//GEN-LAST:event_signoutButtonActionPerformed
 
     private void removeClassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeClassButtonActionPerformed
@@ -1168,6 +1184,203 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_editClassButtonActionPerformed
     
     
+    public void getUserClasses(String username){
+        String tableName = "CLASSES-" + username;
+        try{
+            databaseURL = "jdbc:derby:C:/Users/milky/DerbyDB/gradecalc";
+            connection = DriverManager.getConnection(databaseURL);
+            DatabaseMetaData dbm = connection.getMetaData();
+            ResultSet tables = dbm.getTables(null, null, tableName, null);
+            if(tables.next()) {
+                statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,  ResultSet.CONCUR_READ_ONLY);
+                rs = statement.executeQuery("SELECT * FROM \"" + tableName + "\"");
+                while(rs.next()){
+                    String className = rs.getString("CLASSNAME");
+                    double grade = rs.getDouble("GRADE");
+                    String letterGrade = rs.getString("LETTERGRADE");
+                    user.addClass(new Classes(className, grade, letterGrade));
+                }
+            } 
+        }
+        catch(SQLException ex){
+            ex.printStackTrace();
+        }
+    }
+    public void getUserAssignments(String username){
+        String classesTable = "CLASSES-" + username;
+        try{
+            databaseURL = "jdbc:derby:C:/Users/milky/DerbyDB/gradecalc";
+            connection = DriverManager.getConnection(databaseURL);
+            DatabaseMetaData dbm = connection.getMetaData();
+            ResultSet classesInTable = statement.executeQuery("SELECT * FROM \"" + classesTable + "\"");
+            while(classesInTable.next()){
+                String className = rs.getString("CLASSNAME");
+                String classTable = className + "-" + username;
+                ResultSet assignmentsInTable = statement.executeQuery("SELECT * FROM \"" + classTable + "\"");
+                int i = 0;
+                while(assignmentsInTable.next()){
+                    String assignmentName = rs.getString("ASSIGNMENTNAME");
+                    double grade = rs.getDouble("GRADE");
+                    double weight = rs.getDouble("WEIGHT");
+                    user.getClasses().get(i).addAssignment(new Assignment(assignmentName, grade, weight));
+                    i++;
+                }
+            }
+        }
+        catch(SQLException ex){
+            ex.printStackTrace();
+        }
+    }
+    public void createLoginTable(){
+        databaseURL = "jdbc:derby:C:/Users/milky/DerbyDB/gradecalc";
+        try{
+            connection = DriverManager.getConnection(databaseURL);
+            DatabaseMetaData dbm = connection.getMetaData();
+            ResultSet tables = dbm.getTables(null, null, "USERPASS", null);
+            if(!tables.next()){
+                String loginTable = "CREATE TABLE UserPass (USERNAME VARCHAR(256) UNIQUE NOT NULL, PASSWORD VARCHAR(256) NOT NULL, NAME VARCHAR(256) NOT NULL, GPA DOUBLE)";
+                statement = connection.createStatement();
+                statement.execute(loginTable);
+            }
+        }
+        catch(SQLException SQLex){
+            SQLex.printStackTrace();
+        } 
+    }
+    public void updateTables(String username){
+        String classesTable = "CLASSES-" + username;
+        databaseURL = "jdbc:derby:C:/Users/milky/DerbyDB/gradecalc";
+        try{
+            connection = DriverManager.getConnection(databaseURL);
+            rs = statement.executeQuery("SELECT * FROM \"" + classesTable + "\"");
+            Set<String> databaseClassesInTable = new HashSet<>();
+            
+            while(rs.next()){
+                String className = rs.getString("CLASSNAME");
+                databaseClassesInTable.add(className);
+            }
+            
+            for(String className: databaseClassesInTable){
+                if(!user.getClassesNames().contains(className)){
+                    String deleteClassesTable = "DELETE FROM \"" + classesTable + "\" WHERE CLASSNAME = ?";
+                    preparedStatement = connection.prepareStatement(deleteClassesTable);
+                    preparedStatement.setString(1, className);
+                    preparedStatement.executeUpdate();
+                    String deleteClass = "DROP TABLE \"" + className + "\"-\"" + username + "\"";
+                    Statement statement = connection.createStatement();
+                    statement.execute(deleteClass);
+                }
+            }
+            
+            for(Classes c: user.getClasses()){
+                if(!databaseClassesInTable.contains(c.getClassName())){
+                    String insertClassesTable = "INSERT INTO \"" + classesTable + "\" (CLASSNAME, GRADE, LETTERGRADE) VALUES (?, ?, ?)";
+                    preparedStatement = connection.prepareStatement(insertClassesTable);
+                    preparedStatement.setString(1,c.getClassName());
+                    preparedStatement.setDouble(2,c.getGrade());
+                    preparedStatement.setString(3, c.getLetterGrade());
+                    preparedStatement.executeUpdate();
+                }
+                else{
+                    String updateClassesTable = "UPDATE \"" + classesTable + "\" SET GRADE = ?, LETTERGRADE = ? WHERE CLASSNAME = ?";
+                    preparedStatement = connection.prepareStatement(updateClassesTable);
+                    preparedStatement.setDouble(1,c.getGrade());
+                    preparedStatement.setString(2,c.getLetterGrade());
+                    preparedStatement.setString(2,c.getClassName());
+                    preparedStatement.executeUpdate();
+                }
+            }
+            
+            
+            Set<String> databaseClassTable = new HashSet<>();
+            DatabaseMetaData metaData = connection.getMetaData();
+            String productName = metaData.getDatabaseProductName();
+            ResultSet tables = metaData.getTables(productName, null, "%", null);
+            while(tables.next()){
+               String tableName = tables.getString(3);
+               databaseClassTable.add(tableName);
+            }
+            Set<String> defaultTables = new HashSet<>();
+            defaultTables.add("SYSALIASES");
+            defaultTables.add("SYSCHECKS");
+            defaultTables.add("SYSCOLPERMS");
+            defaultTables.add("SYSCOLUMNS");
+            defaultTables.add("SYSCONGLOMERATES");
+            defaultTables.add("SYSCONSTRAINTS");
+            defaultTables.add("SYSDEPENDS");
+            defaultTables.add("SYSFILES");
+            defaultTables.add("SYSFOREIGNKEYS");
+            defaultTables.add("SYSKEYS");
+            defaultTables.add("SYSPERMS");
+            defaultTables.add("SYSROLES");
+            defaultTables.add("SYSROUTINEPERMS");
+            defaultTables.add("SYSSCHEMAS");
+            defaultTables.add("SYSSEQUENCES");
+            defaultTables.add("SYSSTATEMENTS");
+            defaultTables.add("SYSSTATISTICS");
+            defaultTables.add("SYSTABLEPERMS");
+            defaultTables.add("SYSTABLES");
+            defaultTables.add("SYSTRIGGERS");
+            defaultTables.add("SYSUSERS");
+            defaultTables.add("SYSVIEWS");
+            defaultTables.add("SYSDUMMY1");
+            defaultTables.add("USERPASS");
+            defaultTables.add("CLASSES-" + username);       
+            for(String defaultTableName: defaultTables){
+                if(databaseClassTable.contains(defaultTableName)){
+                    databaseClassTable.remove(defaultTableName);
+                }
+            }
+            for(String className: user.getClassesNames()){
+                String tableName = className + "-" + username;
+                if(!databaseClassTable.contains(tableName)){
+                    String classTable = "CREATE TABLE \"" + tableName + "\" (ASSIGNMENTNAME VARCHAR(256) UNIQUE NOT NULL, GRADE DOUBLE NOT NULL, WEIGHT DOUBLE)";
+                    statement = connection.createStatement();
+                    statement.execute(classTable);
+                    databaseClassTable.add(tableName);
+                }
+            }
+            for(String tableName: databaseClassTable){
+                int index = tableName.indexOf("-");
+                String className = tableName.substring(0, index);
+                ResultSet classTable = statement.executeQuery("SELECT * FROM \"" + tableName + "\"");
+                Set<String> tableAssignments = new HashSet<>();
+                while(classTable.next()){
+                    String assignmentName = classTable.getString("ASSIGNMENTNAME");
+                    tableAssignments.add(assignmentName);
+                }   
+                Set<String> userAssignments = new HashSet<>();
+                for(Assignment a: user.getSpecificClass(className).getAssignments()){
+                    if(!tableAssignments.contains(a.getName())){
+                        String insertAssignment = "INSERT INTO \"" + tableName + "\" (ASSIGNMENTNAME, GRADE, WEIGHT) VALUES (?, ?, ?)";
+                        PreparedStatement insertAssignmentStatement = connection.prepareStatement(insertAssignment);
+                        insertAssignmentStatement.setString(1, a.getName());
+                        insertAssignmentStatement.setDouble(2, a.getGrade());
+                        insertAssignmentStatement.setDouble(3, a.getWeight());
+                        insertAssignmentStatement.executeUpdate();
+                    }
+                    else{
+                        String updateAssignment = "UPDATE \"" + tableName + "\" SET GRADE = ?, WEIGHT = ? WHERE ASSIGNMENTNAME = ?";
+                        PreparedStatement updateAssignmentStatement = connection.prepareStatement(updateAssignment);
+                        updateAssignmentStatement.setDouble(1,a.getGrade());
+                        updateAssignmentStatement.setDouble(2,a.getWeight());
+                        updateAssignmentStatement.setString(3,a.getName());
+                        updateAssignmentStatement.executeUpdate();
+                    }
+                }
+                String updateUser = "UPDATE USERPASS SET GPA = ? WHERE USERNAME = ?";
+                PreparedStatement updateUserGPA = connection.prepareStatement(updateUser);
+                updateUserGPA.setDouble(1,user.getGPA());
+                updateUserGPA.setString(2,user.getUserName());
+                updateUserGPA.executeUpdate();
+                
+            }
+            
+        }
+        catch(SQLException ex){
+            
+        }
+    }
     public void connect(){
         databaseURL = "jdbc:derby:C:/Users/milky/DerbyDB/gradecalc";
         try{
