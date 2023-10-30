@@ -8,16 +8,17 @@ import java.sql.*;
 import javax.swing.*;
 import java.util.Set;
 import java.util.HashSet;
-
+import java.awt.event.*;
+import java.awt.*;
 /**
  *
  * @author milky
  */
-public class MainFrame extends javax.swing.JFrame {
+public class MainFrame extends JFrame {
     
     
     private Connection connection;
-    private String databaseURL;
+    private String databaseURL = "jdbc:derby:C:/Users/milky/DerbyDB/gradecalc";
     private PreparedStatement preparedStatement;
     private Statement statement;
     private ResultSet rs;
@@ -26,82 +27,60 @@ public class MainFrame extends javax.swing.JFrame {
     private Classes currentClass;
     private String currentClassName;
     private Assignment currentAssignment;
-    
-    public String numberToLetterGrade(double number){
-        if(number < 60){
-            return "F";
-        }
-        if(number < 64){
-            return "D-";
-        }
-        if(number < 67){
-            return "D";
-        }
-        if(number < 70){
-            return "D+";
-        }
-        if(number < 74){
-            return "C-";
-        }
-        if(number < 77){
-            return "C";
-        }
-        if(number < 80){
-            return "C+";
-        }
-        if(number < 84){
-            return "B-";
-        }
-        if(number < 87){
-            return "B";
-        }
-        if(number < 90){
-            return "B+";
-        }
-        if(number < 94){
-            return "A-";
-        }
-        return "A";
-    }
-    public double letterGradeToGPA(String grade){
-        if(grade.equals("A")){
-            return 4.00;
-        }
-        if(grade.equals("A-")){
-            return 3.70;
-        }
-        if(grade.equals("B+")){
-            return 3.30;
-        }
-        if(grade.equals("B")){
-            return 3.70;
-        }
-        if(grade.equals("B-")){
-            return 2.70;
-        }
-        if(grade.equals("C+")){
-            return 2.30;
-        }
-        if(grade.equals("C")){
-            return 2.00;
-        }
-        if(grade.equals("C-")){
-            return 1.70;
-        }
-        if(grade.equals("D+")){
-            return 1.30;
-        }
-        if(grade.equals("D")){
-            return 1.00;
-        }
-        if(grade.equals("D-")){
-            return 0.70;
-        }
-        if(grade.equals("F")){
-            return 0.00;
-        }
-        return 4.00;
-    }
+
+    private JButton addButton;
+    private JButton addClassButton;
+    private JTextField categoryInput;
+    private JLabel categoryLabel;
+    private JList<String> categoryList;
+    private JScrollPane categoryScrollPanel;
+    private JList<String> classList;
+    private JLabel classListLabel;
+    private JScrollPane classListScrollPanel;
+    private JTextField classNameField;
+    private JTextArea editAddClassGradeDisplayText;
+    private JLabel editAddClassGradeLabel;
+    private JPanel editAddClassScreen;
+    private JButton editAddGoBack;
+    private JButton editClassButton;
+    private JLabel gpaLabel;
+    private JTextField gradeInput;
+    private JLabel gradeLabel;
+    private JList<String> gradeList;
+    private JScrollPane gradeScrollPanel;
+    private JPanel homeScreen;
+    private JButton inEnterButton;
+    private JButton inGoBack;
+    private JPasswordField inPasswordField;
+    private JLabel inPasswordLabel;
+    private JTextField inUsernameField;
+    private JLabel inUsernameLabel;
+    private JButton removeButton;
+    private JButton removeClassButton;
+    private JButton signinButton;
+    private JPanel signinScreen;
+    private JLabel signinTitle;
+    private JButton signoutButton;
+    private JButton signupButton;
+    private JPanel signupScreen;
+    private JLabel sigupTitle;
+    private JButton upGoBack;
+    private JTextField upNameField;
+    private JLabel upNameLabel;
+    private JPasswordField upPasswordField;
+    private JLabel upPasswordLabel;
+    private JButton upRegisterButton;
+    private JTextField upUsernameField;
+    private JLabel upUsernameLabel;
+    private JButton updateButton;
+    private JTextField weightInput;
+    private JLabel weightLabel;
+    private JList<String> weightList;
+    private JScrollPane weightScrollPanel;
+    private JLabel welcomeNameLabel;
+    private JPanel welcomeScreen;
+    private JLabel welcomeTitle;
+
     /**
      * Creates new form MainFrame
      */
@@ -116,221 +95,221 @@ public class MainFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
+        GridBagConstraints gridBagConstraints;
 
-        welcomeScreen = new javax.swing.JPanel();
-        welcomeTitle = new javax.swing.JLabel();
-        signinButton = new javax.swing.JButton();
-        signupButton = new javax.swing.JButton();
-        signinScreen = new javax.swing.JPanel();
-        inUsernameLabel = new javax.swing.JLabel();
-        inPasswordLabel = new javax.swing.JLabel();
-        inUsernameField = new javax.swing.JTextField();
-        inPasswordField = new javax.swing.JPasswordField();
-        inEnterButton = new javax.swing.JButton();
-        signinTitle = new javax.swing.JLabel();
-        inGoBack = new javax.swing.JButton();
-        signupScreen = new javax.swing.JPanel();
-        upNameLabel = new javax.swing.JLabel();
-        upNameField = new javax.swing.JTextField();
-        upUsernameLabel = new javax.swing.JLabel();
-        upUsernameField = new javax.swing.JTextField();
-        upPasswordLabel = new javax.swing.JLabel();
-        upPasswordField = new javax.swing.JPasswordField();
-        upRegisterButton = new javax.swing.JButton();
-        sigupTitle = new javax.swing.JLabel();
-        upGoBack = new javax.swing.JButton();
-        homeScreen = new javax.swing.JPanel();
-        welcomeNameLabel = new javax.swing.JLabel();
-        gpaLabel = new javax.swing.JLabel();
-        classListLabel = new javax.swing.JLabel();
-        classListScrollPanel = new javax.swing.JScrollPane();
-        classList = new javax.swing.JList<>();
-        signoutButton = new javax.swing.JButton();
-        editClassButton = new javax.swing.JButton();
-        classNameField = new javax.swing.JTextField();
-        addClassButton = new javax.swing.JButton();
-        removeClassButton = new javax.swing.JButton();
-        editAddClassScreen = new javax.swing.JPanel();
-        categoryLabel = new javax.swing.JLabel();
-        categoryInput = new javax.swing.JTextField();
-        categoryScrollPanel = new javax.swing.JScrollPane();
-        categoryList = new javax.swing.JList<>();
-        addButton = new javax.swing.JButton();
-        removeButton = new javax.swing.JButton();
-        gradeLabel = new javax.swing.JLabel();
-        gradeInput = new javax.swing.JTextField();
-        gradeScrollPanel = new javax.swing.JScrollPane();
-        gradeList = new javax.swing.JList<>();
-        weightLabel = new javax.swing.JLabel();
-        weightInput = new javax.swing.JTextField();
-        weightScrollPanel = new javax.swing.JScrollPane();
-        weightList = new javax.swing.JList<>();
-        editAddClassGradeLabel = new javax.swing.JLabel();
-        editAddClassGradeDisplayText = new javax.swing.JTextArea();
-        editAddGoBack = new javax.swing.JButton();
-        updateButton = new javax.swing.JButton();
+        welcomeScreen = new JPanel();
+        welcomeTitle = new JLabel();
+        signinButton = new JButton();
+        signupButton = new JButton();
+        signinScreen = new JPanel();
+        inUsernameLabel = new JLabel();
+        inPasswordLabel = new JLabel();
+        inUsernameField = new JTextField();
+        inPasswordField = new JPasswordField();
+        inEnterButton = new JButton();
+        signinTitle = new JLabel();
+        inGoBack = new JButton();
+        signupScreen = new JPanel();
+        upNameLabel = new JLabel();
+        upNameField = new JTextField();
+        upUsernameLabel = new JLabel();
+        upUsernameField = new JTextField();
+        upPasswordLabel = new JLabel();
+        upPasswordField = new JPasswordField();
+        upRegisterButton = new JButton();
+        sigupTitle = new JLabel();
+        upGoBack = new JButton();
+        homeScreen = new JPanel();
+        welcomeNameLabel = new JLabel();
+        gpaLabel = new JLabel();
+        classListLabel = new JLabel();
+        classListScrollPanel = new JScrollPane();
+        classList = new JList<>();
+        signoutButton = new JButton();
+        editClassButton = new JButton();
+        classNameField = new JTextField();
+        addClassButton = new JButton();
+        removeClassButton = new JButton();
+        editAddClassScreen = new JPanel();
+        categoryLabel = new JLabel();
+        categoryInput = new JTextField();
+        categoryScrollPanel = new JScrollPane();
+        categoryList = new JList<>();
+        addButton = new JButton();
+        removeButton = new JButton();
+        gradeLabel = new JLabel();
+        gradeInput = new JTextField();
+        gradeScrollPanel = new JScrollPane();
+        gradeList = new JList<>();
+        weightLabel = new JLabel();
+        weightInput = new JTextField();
+        weightScrollPanel = new JScrollPane();
+        weightList = new JList<>();
+        editAddClassGradeLabel = new JLabel();
+        editAddClassGradeDisplayText = new JTextArea();
+        editAddGoBack = new JButton();
+        updateButton = new JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1280, 720));
-        setMinimumSize(new java.awt.Dimension(1280, 720));
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new Dimension(1280, 720));
+        setMinimumSize(new Dimension(1280, 720));
         setResizable(false);
-        getContentPane().setLayout(new java.awt.CardLayout());
+        getContentPane().setLayout(new CardLayout());
 
-        welcomeScreen.setBackground(new java.awt.Color(255, 204, 204));
-        welcomeScreen.setMaximumSize(new java.awt.Dimension(1280, 720));
-        welcomeScreen.setMinimumSize(new java.awt.Dimension(1280, 720));
-        welcomeScreen.setPreferredSize(new java.awt.Dimension(1280, 720));
-        welcomeScreen.setLayout(new java.awt.GridBagLayout());
+        welcomeScreen.setBackground(new Color(255, 204, 204));
+        welcomeScreen.setMaximumSize(new Dimension(1280, 720));
+        welcomeScreen.setMinimumSize(new Dimension(1280, 720));
+        welcomeScreen.setPreferredSize(new Dimension(1280, 720));
+        welcomeScreen.setLayout(new GridBagLayout());
 
-        welcomeTitle.setFont(new java.awt.Font("Georgia", 0, 96)); // NOI18N
-        welcomeTitle.setForeground(new java.awt.Color(0, 0, 0));
+        welcomeTitle.setFont(new Font("Georgia", 0, 96)); // NOI18N
+        welcomeTitle.setForeground(new Color(0, 0, 0));
         welcomeTitle.setText("Grade Calculator");
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.ipady = 9;
         gridBagConstraints.weighty = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(45, 15, 45, 15);
+        gridBagConstraints.insets = new Insets(45, 15, 45, 15);
         welcomeScreen.add(welcomeTitle, gridBagConstraints);
 
-        signinButton.setBackground(new java.awt.Color(255, 255, 255));
-        signinButton.setFont(new java.awt.Font("Georgia", 0, 36)); // NOI18N
-        signinButton.setForeground(new java.awt.Color(0, 0, 0));
+        signinButton.setBackground(new Color(255, 255, 255));
+        signinButton.setFont(new Font("Georgia", 0, 36)); // NOI18N
+        signinButton.setForeground(new Color(0, 0, 0));
         signinButton.setText("Sign In");
-        signinButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        signinButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 signinButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.weighty = 0.6;
-        gridBagConstraints.insets = new java.awt.Insets(39, 0, 29, 0);
+        gridBagConstraints.insets = new Insets(39, 0, 29, 0);
         welcomeScreen.add(signinButton, gridBagConstraints);
 
-        signupButton.setBackground(new java.awt.Color(255, 255, 255));
-        signupButton.setFont(new java.awt.Font("Georgia", 0, 36)); // NOI18N
-        signupButton.setForeground(new java.awt.Color(0, 0, 0));
+        signupButton.setBackground(new Color(255, 255, 255));
+        signupButton.setFont(new Font("Georgia", 0, 36)); // NOI18N
+        signupButton.setForeground(new Color(0, 0, 0));
         signupButton.setText("Sign Up");
-        signupButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        signupButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 signupButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.weighty = 0.8;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 18, 0);
+        gridBagConstraints.insets = new Insets(0, 0, 18, 0);
         welcomeScreen.add(signupButton, gridBagConstraints);
 
         getContentPane().add(welcomeScreen, "card2");
 
-        signinScreen.setBackground(new java.awt.Color(255, 204, 204));
-        signinScreen.setMaximumSize(new java.awt.Dimension(1280, 720));
-        signinScreen.setMinimumSize(new java.awt.Dimension(1280, 720));
-        signinScreen.setPreferredSize(new java.awt.Dimension(1280, 720));
-        signinScreen.setLayout(new java.awt.GridBagLayout());
+        signinScreen.setBackground(new Color(255, 204, 204));
+        signinScreen.setMaximumSize(new Dimension(1280, 720));
+        signinScreen.setMinimumSize(new Dimension(1280, 720));
+        signinScreen.setPreferredSize(new Dimension(1280, 720));
+        signinScreen.setLayout(new GridBagLayout());
 
-        inUsernameLabel.setBackground(new java.awt.Color(255, 255, 255));
-        inUsernameLabel.setFont(new java.awt.Font("Georgia", 0, 48)); // NOI18N
-        inUsernameLabel.setForeground(new java.awt.Color(0, 0, 0));
+        inUsernameLabel.setBackground(new Color(255, 255, 255));
+        inUsernameLabel.setFont(new Font("Georgia", 0, 48)); // NOI18N
+        inUsernameLabel.setForeground(new Color(0, 0, 0));
         inUsernameLabel.setText("Username");
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 32);
+        gridBagConstraints.insets = new Insets(0, 0, 0, 32);
         signinScreen.add(inUsernameLabel, gridBagConstraints);
 
-        inPasswordLabel.setBackground(new java.awt.Color(255, 255, 255));
-        inPasswordLabel.setFont(new java.awt.Font("Georgia", 0, 48)); // NOI18N
-        inPasswordLabel.setForeground(new java.awt.Color(0, 0, 0));
+        inPasswordLabel.setBackground(new Color(255, 255, 255));
+        inPasswordLabel.setFont(new Font("Georgia", 0, 48)); // NOI18N
+        inPasswordLabel.setForeground(new Color(0, 0, 0));
         inPasswordLabel.setText("Password");
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.weighty = 0.2;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 29);
+        gridBagConstraints.insets = new Insets(0, 0, 0, 29);
         signinScreen.add(inPasswordLabel, gridBagConstraints);
 
-        inUsernameField.setBackground(new java.awt.Color(255, 255, 255));
-        inUsernameField.setFont(new java.awt.Font("Georgia", 0, 24)); // NOI18N
-        inUsernameField.setForeground(new java.awt.Color(0, 0, 0));
-        inUsernameField.setMaximumSize(new java.awt.Dimension(256, 64));
-        inUsernameField.setMinimumSize(new java.awt.Dimension(256, 64));
-        inUsernameField.setPreferredSize(new java.awt.Dimension(256, 64));
+        inUsernameField.setBackground(new Color(255, 255, 255));
+        inUsernameField.setFont(new Font("Georgia", 0, 24)); // NOI18N
+        inUsernameField.setForeground(new Color(0, 0, 0));
+        inUsernameField.setMaximumSize(new Dimension(256, 64));
+        inUsernameField.setMinimumSize(new Dimension(256, 64));
+        inUsernameField.setPreferredSize(new Dimension(256, 64));
         inUsernameField.setRequestFocusEnabled(true);
-        inUsernameField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        inUsernameField.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 inUsernameFieldActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.weighty = 0.3;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 9, 0);
+        gridBagConstraints.insets = new Insets(10, 0, 9, 0);
         signinScreen.add(inUsernameField, gridBagConstraints);
 
-        inPasswordField.setBackground(new java.awt.Color(255, 255, 255));
-        inPasswordField.setFont(new java.awt.Font("Georgia", 0, 24)); // NOI18N
-        inPasswordField.setForeground(new java.awt.Color(0, 0, 0));
-        inPasswordField.setMaximumSize(new java.awt.Dimension(256, 64));
-        inPasswordField.setMinimumSize(new java.awt.Dimension(256, 64));
-        inPasswordField.setPreferredSize(new java.awt.Dimension(256, 64));
-        inPasswordField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        inPasswordField.setBackground(new Color(255, 255, 255));
+        inPasswordField.setFont(new Font("Georgia", 0, 24)); // NOI18N
+        inPasswordField.setForeground(new Color(0, 0, 0));
+        inPasswordField.setMaximumSize(new Dimension(256, 64));
+        inPasswordField.setMinimumSize(new Dimension(256, 64));
+        inPasswordField.setPreferredSize(new Dimension(256, 64));
+        inPasswordField.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 inPasswordFieldActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.weighty = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 6, 0);
+        gridBagConstraints.insets = new Insets(0, 0, 6, 0);
         signinScreen.add(inPasswordField, gridBagConstraints);
 
-        inEnterButton.setBackground(new java.awt.Color(255, 255, 255));
-        inEnterButton.setFont(new java.awt.Font("Georgia", 0, 60)); // NOI18N
-        inEnterButton.setForeground(new java.awt.Color(0, 0, 0));
+        inEnterButton.setBackground(new Color(255, 255, 255));
+        inEnterButton.setFont(new Font("Georgia", 0, 60)); // NOI18N
+        inEnterButton.setForeground(new Color(0, 0, 0));
         inEnterButton.setText("Enter");
-        inEnterButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        inEnterButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 inEnterButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 12;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.gridheight = 8;
         gridBagConstraints.weighty = 0.2;
-        gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
+        gridBagConstraints.insets = new Insets(3, 0, 3, 0);
         signinScreen.add(inEnterButton, gridBagConstraints);
 
-        signinTitle.setBackground(new java.awt.Color(255, 255, 255));
-        signinTitle.setFont(new java.awt.Font("Georgia", 0, 48)); // NOI18N
-        signinTitle.setForeground(new java.awt.Color(0, 0, 0));
+        signinTitle.setBackground(new Color(255, 255, 255));
+        signinTitle.setFont(new Font("Georgia", 0, 48)); // NOI18N
+        signinTitle.setForeground(new Color(0, 0, 0));
         signinTitle.setText("Sign-In");
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 7;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        gridBagConstraints.insets = new Insets(20, 0, 0, 0);
         signinScreen.add(signinTitle, gridBagConstraints);
 
-        inGoBack.setBackground(new java.awt.Color(255, 255, 255));
-        inGoBack.setFont(new java.awt.Font("Georgia", 0, 60)); // NOI18N
-        inGoBack.setForeground(new java.awt.Color(0, 0, 0));
+        inGoBack.setBackground(new Color(255, 255, 255));
+        inGoBack.setFont(new Font("Georgia", 0, 60)); // NOI18N
+        inGoBack.setForeground(new Color(0, 0, 0));
         inGoBack.setText("Go Back");
-        inGoBack.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        inGoBack.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 inGoBackActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 20;
         gridBagConstraints.gridwidth = 2;
@@ -338,115 +317,115 @@ public class MainFrame extends javax.swing.JFrame {
 
         getContentPane().add(signinScreen, "card3");
 
-        signupScreen.setBackground(new java.awt.Color(255, 204, 204));
-        signupScreen.setMaximumSize(new java.awt.Dimension(1280, 720));
-        signupScreen.setMinimumSize(new java.awt.Dimension(1280, 720));
-        signupScreen.setPreferredSize(new java.awt.Dimension(1280, 720));
-        signupScreen.setLayout(new java.awt.GridBagLayout());
+        signupScreen.setBackground(new Color(255, 204, 204));
+        signupScreen.setMaximumSize(new Dimension(1280, 720));
+        signupScreen.setMinimumSize(new Dimension(1280, 720));
+        signupScreen.setPreferredSize(new Dimension(1280, 720));
+        signupScreen.setLayout(new GridBagLayout());
 
-        upNameLabel.setBackground(new java.awt.Color(255, 255, 255));
-        upNameLabel.setFont(new java.awt.Font("Georgia", 0, 48)); // NOI18N
-        upNameLabel.setForeground(new java.awt.Color(0, 0, 0));
+        upNameLabel.setBackground(new Color(255, 255, 255));
+        upNameLabel.setFont(new Font("Georgia", 0, 48)); // NOI18N
+        upNameLabel.setForeground(new Color(0, 0, 0));
         upNameLabel.setText("Name");
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         signupScreen.add(upNameLabel, gridBagConstraints);
 
-        upNameField.setBackground(new java.awt.Color(255, 255, 255));
-        upNameField.setFont(new java.awt.Font("Georgia", 0, 24)); // NOI18N
-        upNameField.setForeground(new java.awt.Color(0, 0, 0));
-        upNameField.setMaximumSize(new java.awt.Dimension(256, 64));
-        upNameField.setMinimumSize(new java.awt.Dimension(256, 64));
-        upNameField.setPreferredSize(new java.awt.Dimension(256, 64));
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        upNameField.setBackground(new Color(255, 255, 255));
+        upNameField.setFont(new Font("Georgia", 0, 24)); // NOI18N
+        upNameField.setForeground(new Color(0, 0, 0));
+        upNameField.setMaximumSize(new Dimension(256, 64));
+        upNameField.setMinimumSize(new Dimension(256, 64));
+        upNameField.setPreferredSize(new Dimension(256, 64));
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.weighty = 0.3;
-        gridBagConstraints.insets = new java.awt.Insets(0, 33, 0, 0);
+        gridBagConstraints.insets = new Insets(0, 33, 0, 0);
         signupScreen.add(upNameField, gridBagConstraints);
 
-        upUsernameLabel.setBackground(new java.awt.Color(255, 255, 255));
-        upUsernameLabel.setFont(new java.awt.Font("Georgia", 0, 48)); // NOI18N
-        upUsernameLabel.setForeground(new java.awt.Color(0, 0, 0));
+        upUsernameLabel.setBackground(new Color(255, 255, 255));
+        upUsernameLabel.setFont(new Font("Georgia", 0, 48)); // NOI18N
+        upUsernameLabel.setForeground(new Color(0, 0, 0));
         upUsernameLabel.setText("Username");
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         signupScreen.add(upUsernameLabel, gridBagConstraints);
 
-        upUsernameField.setBackground(new java.awt.Color(255, 255, 255));
-        upUsernameField.setFont(new java.awt.Font("Georgia", 0, 24)); // NOI18N
-        upUsernameField.setForeground(new java.awt.Color(0, 0, 0));
-        upUsernameField.setMaximumSize(new java.awt.Dimension(256, 64));
-        upUsernameField.setMinimumSize(new java.awt.Dimension(256, 64));
-        upUsernameField.setPreferredSize(new java.awt.Dimension(256, 64));
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        upUsernameField.setBackground(new Color(255, 255, 255));
+        upUsernameField.setFont(new Font("Georgia", 0, 24)); // NOI18N
+        upUsernameField.setForeground(new Color(0, 0, 0));
+        upUsernameField.setMaximumSize(new Dimension(256, 64));
+        upUsernameField.setMinimumSize(new Dimension(256, 64));
+        upUsernameField.setPreferredSize(new Dimension(256, 64));
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.weighty = 0.4;
-        gridBagConstraints.insets = new java.awt.Insets(0, 33, 0, 0);
+        gridBagConstraints.insets = new Insets(0, 33, 0, 0);
         signupScreen.add(upUsernameField, gridBagConstraints);
 
-        upPasswordLabel.setBackground(new java.awt.Color(255, 255, 255));
-        upPasswordLabel.setFont(new java.awt.Font("Georgia", 0, 48)); // NOI18N
-        upPasswordLabel.setForeground(new java.awt.Color(0, 0, 0));
+        upPasswordLabel.setBackground(new Color(255, 255, 255));
+        upPasswordLabel.setFont(new Font("Georgia", 0, 48)); // NOI18N
+        upPasswordLabel.setForeground(new Color(0, 0, 0));
         upPasswordLabel.setText("Password");
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         signupScreen.add(upPasswordLabel, gridBagConstraints);
 
-        upPasswordField.setBackground(new java.awt.Color(255, 255, 255));
-        upPasswordField.setFont(new java.awt.Font("Georgia", 0, 24)); // NOI18N
-        upPasswordField.setForeground(new java.awt.Color(0, 0, 0));
-        upPasswordField.setMaximumSize(new java.awt.Dimension(256, 64));
-        upPasswordField.setMinimumSize(new java.awt.Dimension(256, 64));
-        upPasswordField.setPreferredSize(new java.awt.Dimension(256, 64));
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        upPasswordField.setBackground(new Color(255, 255, 255));
+        upPasswordField.setFont(new Font("Georgia", 0, 24)); // NOI18N
+        upPasswordField.setForeground(new Color(0, 0, 0));
+        upPasswordField.setMaximumSize(new Dimension(256, 64));
+        upPasswordField.setMinimumSize(new Dimension(256, 64));
+        upPasswordField.setPreferredSize(new Dimension(256, 64));
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.weighty = 0.5;
-        gridBagConstraints.insets = new java.awt.Insets(0, 33, 0, 0);
+        gridBagConstraints.insets = new Insets(0, 33, 0, 0);
         signupScreen.add(upPasswordField, gridBagConstraints);
 
-        upRegisterButton.setBackground(new java.awt.Color(255, 255, 255));
-        upRegisterButton.setFont(new java.awt.Font("Georgia", 0, 60)); // NOI18N
-        upRegisterButton.setForeground(new java.awt.Color(0, 0, 0));
+        upRegisterButton.setBackground(new Color(255, 255, 255));
+        upRegisterButton.setFont(new Font("Georgia", 0, 60)); // NOI18N
+        upRegisterButton.setForeground(new Color(0, 0, 0));
         upRegisterButton.setText("Register");
-        upRegisterButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        upRegisterButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 upRegisterButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 36, 0);
+        gridBagConstraints.insets = new Insets(0, 0, 36, 0);
         signupScreen.add(upRegisterButton, gridBagConstraints);
 
-        sigupTitle.setBackground(new java.awt.Color(255, 255, 255));
-        sigupTitle.setFont(new java.awt.Font("Georgia", 0, 48)); // NOI18N
-        sigupTitle.setForeground(new java.awt.Color(0, 0, 0));
+        sigupTitle.setBackground(new Color(255, 255, 255));
+        sigupTitle.setFont(new Font("Georgia", 0, 48)); // NOI18N
+        sigupTitle.setForeground(new Color(0, 0, 0));
         sigupTitle.setText("Sign-Up");
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        gridBagConstraints.insets = new Insets(10, 0, 0, 0);
         signupScreen.add(sigupTitle, gridBagConstraints);
 
-        upGoBack.setBackground(new java.awt.Color(255, 255, 255));
-        upGoBack.setFont(new java.awt.Font("Georgia", 0, 60)); // NOI18N
-        upGoBack.setForeground(new java.awt.Color(0, 0, 0));
+        upGoBack.setBackground(new Color(255, 255, 255));
+        upGoBack.setFont(new Font("Georgia", 0, 60)); // NOI18N
+        upGoBack.setForeground(new Color(0, 0, 0));
         upGoBack.setText("Go Back");
-        upGoBack.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        upGoBack.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 upGoBackActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 4;
@@ -454,347 +433,347 @@ public class MainFrame extends javax.swing.JFrame {
 
         getContentPane().add(signupScreen, "card4");
 
-        homeScreen.setBackground(new java.awt.Color(255, 204, 204));
-        homeScreen.setLayout(new java.awt.GridBagLayout());
+        homeScreen.setBackground(new Color(255, 204, 204));
+        homeScreen.setLayout(new GridBagLayout());
 
-        welcomeNameLabel.setBackground(new java.awt.Color(255, 255, 255));
-        welcomeNameLabel.setFont(new java.awt.Font("Georgia", 0, 36)); // NOI18N
-        welcomeNameLabel.setForeground(new java.awt.Color(0, 0, 0));
+        welcomeNameLabel.setBackground(new Color(255, 255, 255));
+        welcomeNameLabel.setFont(new Font("Georgia", 0, 36)); // NOI18N
+        welcomeNameLabel.setForeground(new Color(0, 0, 0));
         welcomeNameLabel.setText("Welcome");
-        welcomeNameLabel.setMaximumSize(new java.awt.Dimension(512, 69));
-        welcomeNameLabel.setMinimumSize(new java.awt.Dimension(512, 69));
-        welcomeNameLabel.setPreferredSize(new java.awt.Dimension(512, 69));
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        welcomeNameLabel.setMaximumSize(new Dimension(512, 69));
+        welcomeNameLabel.setMinimumSize(new Dimension(512, 69));
+        welcomeNameLabel.setPreferredSize(new Dimension(512, 69));
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         homeScreen.add(welcomeNameLabel, gridBagConstraints);
 
-        gpaLabel.setBackground(new java.awt.Color(255, 255, 255));
-        gpaLabel.setFont(new java.awt.Font("Georgia", 0, 60)); // NOI18N
-        gpaLabel.setForeground(new java.awt.Color(0, 0, 0));
+        gpaLabel.setBackground(new Color(255, 255, 255));
+        gpaLabel.setFont(new Font("Georgia", 0, 60)); // NOI18N
+        gpaLabel.setForeground(new Color(0, 0, 0));
         gpaLabel.setText("GPA");
-        gpaLabel.setMaximumSize(new java.awt.Dimension(512, 69));
-        gpaLabel.setMinimumSize(new java.awt.Dimension(512, 69));
-        gpaLabel.setPreferredSize(new java.awt.Dimension(512, 69));
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gpaLabel.setMaximumSize(new Dimension(512, 69));
+        gpaLabel.setMinimumSize(new Dimension(512, 69));
+        gpaLabel.setPreferredSize(new Dimension(512, 69));
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 5;
         homeScreen.add(gpaLabel, gridBagConstraints);
 
-        classListLabel.setBackground(new java.awt.Color(255, 255, 255));
-        classListLabel.setFont(new java.awt.Font("Georgia", 0, 60)); // NOI18N
-        classListLabel.setForeground(new java.awt.Color(0, 0, 0));
+        classListLabel.setBackground(new Color(255, 255, 255));
+        classListLabel.setFont(new Font("Georgia", 0, 60)); // NOI18N
+        classListLabel.setForeground(new Color(0, 0, 0));
         classListLabel.setText("Class List");
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(31, 0, 31, 0);
+        gridBagConstraints.insets = new Insets(31, 0, 31, 0);
         homeScreen.add(classListLabel, gridBagConstraints);
 
-        classListScrollPanel.setMaximumSize(new java.awt.Dimension(256, 256));
-        classListScrollPanel.setMinimumSize(new java.awt.Dimension(256, 256));
-        classListScrollPanel.setPreferredSize(new java.awt.Dimension(256, 256));
+        classListScrollPanel.setMaximumSize(new Dimension(256, 256));
+        classListScrollPanel.setMinimumSize(new Dimension(256, 256));
+        classListScrollPanel.setPreferredSize(new Dimension(256, 256));
 
-        classList.setBackground(new java.awt.Color(255, 255, 255));
-        classList.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
-        classList.setForeground(new java.awt.Color(0, 0, 0));
-        classList.setMaximumSize(new java.awt.Dimension(256, 256));
-        classList.setMinimumSize(new java.awt.Dimension(256, 256));
-        classList.setPreferredSize(new java.awt.Dimension(256, 256));
+        classList.setBackground(new Color(255, 255, 255));
+        classList.setFont(new Font("Georgia", 0, 12)); // NOI18N
+        classList.setForeground(new Color(0, 0, 0));
+        classList.setMaximumSize(new Dimension(256, 256));
+        classList.setMinimumSize(new Dimension(256, 256));
+        classList.setPreferredSize(new Dimension(256, 256));
         classListScrollPanel.setViewportView(classList);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridheight = 3;
         homeScreen.add(classListScrollPanel, gridBagConstraints);
 
-        signoutButton.setBackground(new java.awt.Color(255, 255, 255));
-        signoutButton.setFont(new java.awt.Font("Georgia", 0, 48)); // NOI18N
-        signoutButton.setForeground(new java.awt.Color(0, 0, 0));
+        signoutButton.setBackground(new Color(255, 255, 255));
+        signoutButton.setFont(new Font("Georgia", 0, 48)); // NOI18N
+        signoutButton.setForeground(new Color(0, 0, 0));
         signoutButton.setText("Sign Out");
-        signoutButton.setMaximumSize(new java.awt.Dimension(263, 90));
-        signoutButton.setMinimumSize(new java.awt.Dimension(263, 90));
-        signoutButton.setPreferredSize(new java.awt.Dimension(263, 90));
-        signoutButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        signoutButton.setMaximumSize(new Dimension(263, 90));
+        signoutButton.setMinimumSize(new Dimension(263, 90));
+        signoutButton.setPreferredSize(new Dimension(263, 90));
+        signoutButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 signoutButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
         homeScreen.add(signoutButton, gridBagConstraints);
 
-        editClassButton.setBackground(new java.awt.Color(255, 255, 255));
-        editClassButton.setFont(new java.awt.Font("Georgia", 0, 60)); // NOI18N
-        editClassButton.setForeground(new java.awt.Color(0, 0, 0));
+        editClassButton.setBackground(new Color(255, 255, 255));
+        editClassButton.setFont(new Font("Georgia", 0, 60)); // NOI18N
+        editClassButton.setForeground(new Color(0, 0, 0));
         editClassButton.setText("Edit Class");
-        editClassButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        editClassButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 editClassButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.insets = new java.awt.Insets(9, 53, 62, 53);
+        gridBagConstraints.insets = new Insets(9, 53, 62, 53);
         homeScreen.add(editClassButton, gridBagConstraints);
 
-        classNameField.setBackground(new java.awt.Color(255, 255, 255));
-        classNameField.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
-        classNameField.setForeground(new java.awt.Color(0, 0, 0));
+        classNameField.setBackground(new Color(255, 255, 255));
+        classNameField.setFont(new Font("Georgia", 0, 18)); // NOI18N
+        classNameField.setForeground(new Color(0, 0, 0));
         classNameField.setText("edit/add name");
-        classNameField.setMaximumSize(new java.awt.Dimension(256, 96));
-        classNameField.setMinimumSize(new java.awt.Dimension(256, 96));
-        classNameField.setPreferredSize(new java.awt.Dimension(256, 96));
-        classNameField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        classNameField.setMaximumSize(new Dimension(256, 96));
+        classNameField.setMinimumSize(new Dimension(256, 96));
+        classNameField.setPreferredSize(new Dimension(256, 96));
+        classNameField.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 classNameFieldActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 34, 0);
+        gridBagConstraints.insets = new Insets(0, 0, 34, 0);
         homeScreen.add(classNameField, gridBagConstraints);
 
-        addClassButton.setBackground(new java.awt.Color(255, 255, 255));
-        addClassButton.setFont(new java.awt.Font("Georgia", 0, 60)); // NOI18N
-        addClassButton.setForeground(new java.awt.Color(0, 0, 0));
+        addClassButton.setBackground(new Color(255, 255, 255));
+        addClassButton.setFont(new Font("Georgia", 0, 60)); // NOI18N
+        addClassButton.setForeground(new Color(0, 0, 0));
         addClassButton.setText("Add Class");
-        addClassButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        addClassButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 addClassButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         homeScreen.add(addClassButton, gridBagConstraints);
 
-        removeClassButton.setBackground(new java.awt.Color(255, 255, 255));
-        removeClassButton.setFont(new java.awt.Font("Georgia", 0, 60)); // NOI18N
-        removeClassButton.setForeground(new java.awt.Color(0, 0, 0));
+        removeClassButton.setBackground(new Color(255, 255, 255));
+        removeClassButton.setFont(new Font("Georgia", 0, 60)); // NOI18N
+        removeClassButton.setForeground(new Color(0, 0, 0));
         removeClassButton.setText("Remove Class");
-        removeClassButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        removeClassButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 removeClassButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(32, 0, 32, 0);
+        gridBagConstraints.insets = new Insets(32, 0, 32, 0);
         homeScreen.add(removeClassButton, gridBagConstraints);
 
         getContentPane().add(homeScreen, "card6");
 
-        editAddClassScreen.setBackground(new java.awt.Color(255, 204, 204));
-        editAddClassScreen.setMaximumSize(new java.awt.Dimension(1280, 720));
-        editAddClassScreen.setMinimumSize(new java.awt.Dimension(1280, 720));
-        editAddClassScreen.setPreferredSize(new java.awt.Dimension(1280, 720));
-        editAddClassScreen.setLayout(new java.awt.GridBagLayout());
+        editAddClassScreen.setBackground(new Color(255, 204, 204));
+        editAddClassScreen.setMaximumSize(new Dimension(1280, 720));
+        editAddClassScreen.setMinimumSize(new Dimension(1280, 720));
+        editAddClassScreen.setPreferredSize(new Dimension(1280, 720));
+        editAddClassScreen.setLayout(new GridBagLayout());
 
-        categoryLabel.setBackground(new java.awt.Color(255, 255, 255));
-        categoryLabel.setFont(new java.awt.Font("Georgia", 0, 48)); // NOI18N
-        categoryLabel.setForeground(new java.awt.Color(0, 0, 0));
+        categoryLabel.setBackground(new Color(255, 255, 255));
+        categoryLabel.setFont(new Font("Georgia", 0, 48)); // NOI18N
+        categoryLabel.setForeground(new Color(0, 0, 0));
         categoryLabel.setText("Category");
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 20, 0);
+        gridBagConstraints.insets = new Insets(20, 0, 20, 0);
         editAddClassScreen.add(categoryLabel, gridBagConstraints);
 
-        categoryInput.setBackground(new java.awt.Color(255, 255, 255));
-        categoryInput.setFont(new java.awt.Font("Georgia", 0, 48)); // NOI18N
-        categoryInput.setForeground(new java.awt.Color(0, 0, 0));
-        categoryInput.setMaximumSize(new java.awt.Dimension(192, 64));
-        categoryInput.setMinimumSize(new java.awt.Dimension(192, 64));
-        categoryInput.setPreferredSize(new java.awt.Dimension(192, 64));
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        categoryInput.setBackground(new Color(255, 255, 255));
+        categoryInput.setFont(new Font("Georgia", 0, 48)); // NOI18N
+        categoryInput.setForeground(new Color(0, 0, 0));
+        categoryInput.setMaximumSize(new Dimension(192, 64));
+        categoryInput.setMinimumSize(new Dimension(192, 64));
+        categoryInput.setPreferredSize(new Dimension(192, 64));
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridheight = 2;
         editAddClassScreen.add(categoryInput, gridBagConstraints);
 
-        categoryScrollPanel.setMaximumSize(new java.awt.Dimension(128, 256));
-        categoryScrollPanel.setMinimumSize(new java.awt.Dimension(128, 256));
-        categoryScrollPanel.setPreferredSize(new java.awt.Dimension(128, 256));
+        categoryScrollPanel.setMaximumSize(new Dimension(128, 256));
+        categoryScrollPanel.setMinimumSize(new Dimension(128, 256));
+        categoryScrollPanel.setPreferredSize(new Dimension(128, 256));
 
-        categoryList.setBackground(new java.awt.Color(255, 255, 255));
-        categoryList.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        categoryList.setForeground(new java.awt.Color(0, 0, 0));
-        categoryList.setMaximumSize(new java.awt.Dimension(128, 256));
-        categoryList.setMinimumSize(new java.awt.Dimension(128, 256));
-        categoryList.setPreferredSize(new java.awt.Dimension(128, 256));
+        categoryList.setBackground(new Color(255, 255, 255));
+        categoryList.setFont(new Font("Georgia", 0, 14)); // NOI18N
+        categoryList.setForeground(new Color(0, 0, 0));
+        categoryList.setMaximumSize(new Dimension(128, 256));
+        categoryList.setMinimumSize(new Dimension(128, 256));
+        categoryList.setPreferredSize(new Dimension(128, 256));
         categoryScrollPanel.setViewportView(categoryList);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        gridBagConstraints.insets = new Insets(10, 0, 10, 0);
         editAddClassScreen.add(categoryScrollPanel, gridBagConstraints);
 
-        addButton.setBackground(new java.awt.Color(255, 255, 255));
-        addButton.setFont(new java.awt.Font("Georgia", 0, 48)); // NOI18N
-        addButton.setForeground(new java.awt.Color(0, 0, 0));
+        addButton.setBackground(new Color(255, 255, 255));
+        addButton.setFont(new Font("Georgia", 0, 48)); // NOI18N
+        addButton.setForeground(new Color(0, 0, 0));
         addButton.setText("Add");
-        addButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        addButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 addButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        gridBagConstraints.insets = new Insets(10, 0, 10, 0);
         editAddClassScreen.add(addButton, gridBagConstraints);
 
-        removeButton.setBackground(new java.awt.Color(255, 255, 255));
-        removeButton.setFont(new java.awt.Font("Georgia", 0, 48)); // NOI18N
-        removeButton.setForeground(new java.awt.Color(0, 0, 0));
+        removeButton.setBackground(new Color(255, 255, 255));
+        removeButton.setFont(new Font("Georgia", 0, 48)); // NOI18N
+        removeButton.setForeground(new Color(0, 0, 0));
         removeButton.setText("Remove");
-        removeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        removeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 removeButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
         editAddClassScreen.add(removeButton, gridBagConstraints);
 
-        gradeLabel.setBackground(new java.awt.Color(255, 255, 255));
-        gradeLabel.setFont(new java.awt.Font("Georgia", 0, 48)); // NOI18N
-        gradeLabel.setForeground(new java.awt.Color(0, 0, 0));
+        gradeLabel.setBackground(new Color(255, 255, 255));
+        gradeLabel.setFont(new Font("Georgia", 0, 48)); // NOI18N
+        gradeLabel.setForeground(new Color(0, 0, 0));
         gradeLabel.setText("Grade");
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.weightx = 0.1;
         editAddClassScreen.add(gradeLabel, gridBagConstraints);
 
-        gradeInput.setBackground(new java.awt.Color(255, 255, 255));
-        gradeInput.setFont(new java.awt.Font("Georgia", 0, 48)); // NOI18N
-        gradeInput.setForeground(new java.awt.Color(0, 0, 0));
-        gradeInput.setMaximumSize(new java.awt.Dimension(192, 64));
-        gradeInput.setMinimumSize(new java.awt.Dimension(192, 64));
-        gradeInput.setPreferredSize(new java.awt.Dimension(192, 64));
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gradeInput.setBackground(new Color(255, 255, 255));
+        gradeInput.setFont(new Font("Georgia", 0, 48)); // NOI18N
+        gradeInput.setForeground(new Color(0, 0, 0));
+        gradeInput.setMaximumSize(new Dimension(192, 64));
+        gradeInput.setMinimumSize(new Dimension(192, 64));
+        gradeInput.setPreferredSize(new Dimension(192, 64));
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridheight = 2;
         editAddClassScreen.add(gradeInput, gridBagConstraints);
 
-        gradeScrollPanel.setMaximumSize(new java.awt.Dimension(128, 256));
-        gradeScrollPanel.setMinimumSize(new java.awt.Dimension(128, 256));
-        gradeScrollPanel.setPreferredSize(new java.awt.Dimension(128, 256));
+        gradeScrollPanel.setMaximumSize(new Dimension(128, 256));
+        gradeScrollPanel.setMinimumSize(new Dimension(128, 256));
+        gradeScrollPanel.setPreferredSize(new Dimension(128, 256));
 
-        gradeList.setBackground(new java.awt.Color(255, 255, 255));
-        gradeList.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        gradeList.setForeground(new java.awt.Color(0, 0, 0));
-        gradeList.setMaximumSize(new java.awt.Dimension(128, 256));
-        gradeList.setMinimumSize(new java.awt.Dimension(128, 256));
-        gradeList.setPreferredSize(new java.awt.Dimension(128, 256));
+        gradeList.setBackground(new Color(255, 255, 255));
+        gradeList.setFont(new Font("Georgia", 0, 14)); // NOI18N
+        gradeList.setForeground(new Color(0, 0, 0));
+        gradeList.setMaximumSize(new Dimension(128, 256));
+        gradeList.setMinimumSize(new Dimension(128, 256));
+        gradeList.setPreferredSize(new Dimension(128, 256));
         gradeScrollPanel.setViewportView(gradeList);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
         editAddClassScreen.add(gradeScrollPanel, gridBagConstraints);
 
-        weightLabel.setBackground(new java.awt.Color(255, 255, 255));
-        weightLabel.setFont(new java.awt.Font("Georgia", 0, 48)); // NOI18N
-        weightLabel.setForeground(new java.awt.Color(0, 0, 0));
+        weightLabel.setBackground(new Color(255, 255, 255));
+        weightLabel.setFont(new Font("Georgia", 0, 48)); // NOI18N
+        weightLabel.setForeground(new Color(0, 0, 0));
         weightLabel.setText("Weight");
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.weightx = 0.1;
         editAddClassScreen.add(weightLabel, gridBagConstraints);
 
-        weightInput.setBackground(new java.awt.Color(255, 255, 255));
-        weightInput.setFont(new java.awt.Font("Georgia", 0, 48)); // NOI18N
-        weightInput.setForeground(new java.awt.Color(0, 0, 0));
-        weightInput.setMaximumSize(new java.awt.Dimension(192, 64));
-        weightInput.setMinimumSize(new java.awt.Dimension(192, 64));
+        weightInput.setBackground(new Color(255, 255, 255));
+        weightInput.setFont(new Font("Georgia", 0, 48)); // NOI18N
+        weightInput.setForeground(new Color(0, 0, 0));
+        weightInput.setMaximumSize(new Dimension(192, 64));
+        weightInput.setMinimumSize(new Dimension(192, 64));
         weightInput.setOpaque(true);
-        weightInput.setPreferredSize(new java.awt.Dimension(192, 64));
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        weightInput.setPreferredSize(new Dimension(192, 64));
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridheight = 2;
         editAddClassScreen.add(weightInput, gridBagConstraints);
 
-        weightScrollPanel.setMaximumSize(new java.awt.Dimension(128, 256));
-        weightScrollPanel.setMinimumSize(new java.awt.Dimension(128, 256));
-        weightScrollPanel.setPreferredSize(new java.awt.Dimension(128, 256));
+        weightScrollPanel.setMaximumSize(new Dimension(128, 256));
+        weightScrollPanel.setMinimumSize(new Dimension(128, 256));
+        weightScrollPanel.setPreferredSize(new Dimension(128, 256));
 
-        weightList.setBackground(new java.awt.Color(255, 255, 255));
-        weightList.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        weightList.setForeground(new java.awt.Color(0, 0, 0));
-        weightList.setMaximumSize(new java.awt.Dimension(128, 256));
-        weightList.setMinimumSize(new java.awt.Dimension(128, 256));
-        weightList.setPreferredSize(new java.awt.Dimension(128, 256));
+        weightList.setBackground(new Color(255, 255, 255));
+        weightList.setFont(new Font("Georgia", 0, 14)); // NOI18N
+        weightList.setForeground(new Color(0, 0, 0));
+        weightList.setMaximumSize(new Dimension(128, 256));
+        weightList.setMinimumSize(new Dimension(128, 256));
+        weightList.setPreferredSize(new Dimension(128, 256));
         weightScrollPanel.setViewportView(weightList);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 5;
         editAddClassScreen.add(weightScrollPanel, gridBagConstraints);
 
-        editAddClassGradeLabel.setBackground(new java.awt.Color(255, 204, 204));
-        editAddClassGradeLabel.setFont(new java.awt.Font("Georgia", 0, 40)); // NOI18N
-        editAddClassGradeLabel.setForeground(new java.awt.Color(0, 0, 0));
+        editAddClassGradeLabel.setBackground(new Color(255, 204, 204));
+        editAddClassGradeLabel.setFont(new Font("Georgia", 0, 40)); // NOI18N
+        editAddClassGradeLabel.setForeground(new Color(0, 0, 0));
         editAddClassGradeLabel.setText("Class  Grade");
-        editAddClassGradeLabel.setMaximumSize(new java.awt.Dimension(256, 60));
-        editAddClassGradeLabel.setMinimumSize(new java.awt.Dimension(256, 60));
+        editAddClassGradeLabel.setMaximumSize(new Dimension(256, 60));
+        editAddClassGradeLabel.setMinimumSize(new Dimension(256, 60));
         editAddClassGradeLabel.setOpaque(true);
-        editAddClassGradeLabel.setPreferredSize(new java.awt.Dimension(256, 60));
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        editAddClassGradeLabel.setPreferredSize(new Dimension(256, 60));
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.weighty = 0.1;
         editAddClassScreen.add(editAddClassGradeLabel, gridBagConstraints);
 
         editAddClassGradeDisplayText.setEditable(false);
-        editAddClassGradeDisplayText.setBackground(new java.awt.Color(255, 255, 255));
+        editAddClassGradeDisplayText.setBackground(new Color(255, 255, 255));
         editAddClassGradeDisplayText.setColumns(20);
-        editAddClassGradeDisplayText.setFont(new java.awt.Font("Georgia", 0, 48)); // NOI18N
-        editAddClassGradeDisplayText.setForeground(new java.awt.Color(0, 0, 0));
+        editAddClassGradeDisplayText.setFont(new Font("Georgia", 0, 48)); // NOI18N
+        editAddClassGradeDisplayText.setForeground(new Color(0, 0, 0));
         editAddClassGradeDisplayText.setRows(5);
         editAddClassGradeDisplayText.setText("0.00");
-        editAddClassGradeDisplayText.setMaximumSize(new java.awt.Dimension(256, 64));
-        editAddClassGradeDisplayText.setMinimumSize(new java.awt.Dimension(256, 64));
-        editAddClassGradeDisplayText.setPreferredSize(new java.awt.Dimension(256, 64));
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        editAddClassGradeDisplayText.setMaximumSize(new Dimension(256, 64));
+        editAddClassGradeDisplayText.setMinimumSize(new Dimension(256, 64));
+        editAddClassGradeDisplayText.setPreferredSize(new Dimension(256, 64));
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 7;
         editAddClassScreen.add(editAddClassGradeDisplayText, gridBagConstraints);
 
-        editAddGoBack.setBackground(new java.awt.Color(255, 255, 255));
-        editAddGoBack.setFont(new java.awt.Font("Georgia", 0, 60)); // NOI18N
-        editAddGoBack.setForeground(new java.awt.Color(0, 0, 0));
+        editAddGoBack.setBackground(new Color(255, 255, 255));
+        editAddGoBack.setFont(new Font("Georgia", 0, 60)); // NOI18N
+        editAddGoBack.setForeground(new Color(0, 0, 0));
         editAddGoBack.setText("Go Back");
-        editAddGoBack.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        editAddGoBack.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 editAddGoBackActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 7;
         editAddClassScreen.add(editAddGoBack, gridBagConstraints);
 
-        updateButton.setBackground(new java.awt.Color(255, 255, 255));
-        updateButton.setFont(new java.awt.Font("Georgia", 0, 60)); // NOI18N
-        updateButton.setForeground(new java.awt.Color(0, 0, 0));
+        updateButton.setBackground(new Color(255, 255, 255));
+        updateButton.setFont(new Font("Georgia", 0, 60)); // NOI18N
+        updateButton.setForeground(new Color(0, 0, 0));
         updateButton.setText("UPDATE");
-        updateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        updateButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 updateButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 5;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 11);
+        gridBagConstraints.insets = new Insets(0, 0, 0, 11);
         editAddClassScreen.add(updateButton, gridBagConstraints);
 
         getContentPane().add(editAddClassScreen, "card5");
@@ -802,16 +781,15 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void signinButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signinButtonActionPerformed
+    private void signinButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_signinButtonActionPerformed
         createLoginTable();
         welcomeScreen.setVisible(false);
         signinScreen.setVisible(true);
     }//GEN-LAST:event_signinButtonActionPerformed
 
-    private void inEnterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inEnterButtonActionPerformed
+    private void inEnterButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_inEnterButtonActionPerformed
         String username = inUsernameField.getText().trim();
         String password = inPasswordField.getText().trim();
-        databaseURL = "jdbc:derby:C:/Users/milky/DerbyDB/gradecalc";
         userExists = false;
         
         try{
@@ -833,9 +811,7 @@ public class MainFrame extends javax.swing.JFrame {
                 user = new UserProfile(username);
                 welcomeNameLabel.setText("Welcome " + user.getUserName());
                 getUserClasses(username);
-                
-                
-                
+                getUserAssignments(username);
                 gpaLabel.setText("GPA: " + user.getGPA());
             }
             else{
@@ -843,26 +819,6 @@ public class MainFrame extends javax.swing.JFrame {
             }
             getUserClasses(user.getUserName());
             getUserAssignments(user.getUserName());
-            
-            //PreparedStatement st = connection.prepareStatement("DELETE FROM USERPASS WHERE username = ?");
-            //st.setString(1,"Malik Gomez");
-            //st.executeUpdate();
-            //String sql = "INSERT INTO USERPASS (username, password, name) VALUES" + 
-            //         "('malik-jg', 'passwordlmfao', 'Malik Gomez')";
-            //takes input from user
-            //String sql2 = "INSERT INTO USERPASS (username, password, name) VALUES" + 
-            //         "('" + username + "', '" + password + "', 'Malik Gomez')";  
-            
-            
-            //String retrieveSQL = "select * USERPASS ";
-            
-            //Statement statement = connection.createStatement();
-            
-            
-            //int rows = statement.executeUpdate(sql);
-            //if(rows > 0){
-            //    System.out.println("Registered");
-            //}
         }
         catch(SQLException SQLex){
             SQLex.printStackTrace();
@@ -870,23 +826,21 @@ public class MainFrame extends javax.swing.JFrame {
         catch(IncorrectPassword ex){
             JOptionPane.showMessageDialog(this, "Incorrect Password");
         }
-        //System.out.println("User: " + username + " Pass: " + password);
     }//GEN-LAST:event_inEnterButtonActionPerformed
 
-    private void inPasswordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inPasswordFieldActionPerformed
+    private void inPasswordFieldActionPerformed(ActionEvent evt) {//GEN-FIRST:event_inPasswordFieldActionPerformed
         
     }//GEN-LAST:event_inPasswordFieldActionPerformed
 
-    private void inUsernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inUsernameFieldActionPerformed
+    private void inUsernameFieldActionPerformed(ActionEvent evt) {//GEN-FIRST:event_inUsernameFieldActionPerformed
       
     }//GEN-LAST:event_inUsernameFieldActionPerformed
 
-    private void upRegisterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upRegisterButtonActionPerformed
+    private void upRegisterButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_upRegisterButtonActionPerformed
         String username = upUsernameField.getText().trim();
         String password = upPasswordField.getText().trim();
         String name = upNameField.getText();
         
-        databaseURL = "jdbc:derby:C:/Users/milky/DerbyDB/gradecalc";
         userExists = false;
         try{
             connection = DriverManager.getConnection(databaseURL);
@@ -926,7 +880,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_upRegisterButtonActionPerformed
 
-    private void signupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupButtonActionPerformed
+    private void signupButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_signupButtonActionPerformed
         createLoginTable();
         welcomeScreen.setVisible(false);
         signupScreen.setVisible(true);
@@ -935,19 +889,19 @@ public class MainFrame extends javax.swing.JFrame {
         upPasswordField.setText("");
     }//GEN-LAST:event_signupButtonActionPerformed
 
-    private void upGoBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upGoBackActionPerformed
+    private void upGoBackActionPerformed(ActionEvent evt) {//GEN-FIRST:event_upGoBackActionPerformed
         signupScreen.setVisible(false);
         welcomeScreen.setVisible(true);
         upUsernameField.setText("");
         upPasswordField.setText("");
     }//GEN-LAST:event_upGoBackActionPerformed
 
-    private void inGoBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inGoBackActionPerformed
+    private void inGoBackActionPerformed(ActionEvent evt) {//GEN-FIRST:event_inGoBackActionPerformed
         signinScreen.setVisible(false);
         welcomeScreen.setVisible(true);
     }//GEN-LAST:event_inGoBackActionPerformed
 
-    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+    private void updateButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         try{
             double totalGrade = 0;
             double totalWeight = 0;
@@ -961,15 +915,15 @@ public class MainFrame extends javax.swing.JFrame {
                 totalGrade += (100 - totalWeight);
             }
             currentClass.setGrade(totalGrade);
-            currentClass.setLetterGrade(numberToLetterGrade(totalGrade));
-            editAddClassGradeDisplayText.setText(currentClass.getGrade() + " or " + numberToLetterGrade(currentClass.getGrade()));
+            currentClass.setLetterGrade(Utils.numberToLetterGrade(totalGrade));
+            editAddClassGradeDisplayText.setText(currentClass.getGrade() + " or " + Utils.numberToLetterGrade(currentClass.getGrade()));
         }
         catch(NumberFormatException ex){
             JOptionPane.showMessageDialog(this, "Grade And Weight Must Follow Format: 100.0");
         }
     }//GEN-LAST:event_updateButtonActionPerformed
 
-    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+    private void addButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         String category = categoryInput.getText();
         String grade = gradeInput.getText();
         String weight = weightInput.getText();
@@ -1014,7 +968,7 @@ public class MainFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_addButtonActionPerformed
 
-    private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
+    private void removeButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
         String category = categoryInput.getText();
         String grade = gradeInput.getText();
         String weight = weightInput.getText();
@@ -1055,7 +1009,7 @@ public class MainFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_removeButtonActionPerformed
 
-    private void editAddGoBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editAddGoBackActionPerformed
+    private void editAddGoBackActionPerformed(ActionEvent evt) {//GEN-FIRST:event_editAddGoBackActionPerformed
         editAddClassScreen.setVisible(false);
         homeScreen.setVisible(true);
         categoryInput.setText("");
@@ -1063,19 +1017,19 @@ public class MainFrame extends javax.swing.JFrame {
         weightInput.setText("");
         double totalGPA = 0;
         for(Classes c: user.getClasses()){
-            totalGPA += (letterGradeToGPA(c.getLetterGrade()));
+            totalGPA += (Utils.letterGradeToGPA(c.getLetterGrade()));
         }
         user.setGPA(totalGPA / user.getClasses().size());
         gpaLabel.setText("GPA: " + user.getGPA());
     }//GEN-LAST:event_editAddGoBackActionPerformed
 
-    private void signoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signoutButtonActionPerformed
+    private void signoutButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_signoutButtonActionPerformed
         homeScreen.setVisible(false);
         welcomeScreen.setVisible(true);
         updateTables(user.getUserName());
     }//GEN-LAST:event_signoutButtonActionPerformed
 
-    private void removeClassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeClassButtonActionPerformed
+    private void removeClassButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_removeClassButtonActionPerformed
 
         boolean classExists = false;
         try{
@@ -1107,7 +1061,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_removeClassButtonActionPerformed
 
-    private void addClassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addClassButtonActionPerformed
+    private void addClassButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_addClassButtonActionPerformed
         String className = classNameField.getText().trim();
         try{
             for(Classes c: user.getClasses()){
@@ -1115,9 +1069,9 @@ public class MainFrame extends javax.swing.JFrame {
                     throw new UniqueNameException();
                 }
             }
-            currentClass = new Classes(className, 0, numberToLetterGrade(0));
+            currentClass = new Classes(className, 0, Utils.numberToLetterGrade(0));
             user.addClass(currentClass);
-            editAddClassGradeDisplayText.setText(currentClass.getGrade() + " or " + numberToLetterGrade(currentClass.getGrade()));
+            editAddClassGradeDisplayText.setText(currentClass.getGrade() + " or " + Utils.numberToLetterGrade(currentClass.getGrade()));
             DefaultListModel classModel = new DefaultListModel();
             for(int i = 0; i < classList.getModel().getSize(); i++){
                 classModel.addElement(classList.getModel().getElementAt(i));
@@ -1140,11 +1094,11 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_addClassButtonActionPerformed
 
-    private void classNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classNameFieldActionPerformed
+    private void classNameFieldActionPerformed(ActionEvent evt) {//GEN-FIRST:event_classNameFieldActionPerformed
 
     }//GEN-LAST:event_classNameFieldActionPerformed
 
-    private void editClassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editClassButtonActionPerformed
+    private void editClassButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_editClassButtonActionPerformed
         boolean classExists = false;
         try{
             currentClassName = classNameField.getText();
@@ -1187,7 +1141,6 @@ public class MainFrame extends javax.swing.JFrame {
     public void getUserClasses(String username){
         String tableName = "CLASSES-" + username;
         try{
-            databaseURL = "jdbc:derby:C:/Users/milky/DerbyDB/gradecalc";
             connection = DriverManager.getConnection(databaseURL);
             DatabaseMetaData dbm = connection.getMetaData();
             ResultSet tables = dbm.getTables(null, null, tableName, null);
@@ -1208,8 +1161,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
     public void getUserAssignments(String username){
         String classesTable = "CLASSES-" + username;
-        try{
-            databaseURL = "jdbc:derby:C:/Users/milky/DerbyDB/gradecalc";
+        try{     
             connection = DriverManager.getConnection(databaseURL);
             DatabaseMetaData dbm = connection.getMetaData();
             ResultSet classesInTable = statement.executeQuery("SELECT * FROM \"" + classesTable + "\"");
@@ -1232,7 +1184,6 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
     public void createLoginTable(){
-        databaseURL = "jdbc:derby:C:/Users/milky/DerbyDB/gradecalc";
         try{
             connection = DriverManager.getConnection(databaseURL);
             DatabaseMetaData dbm = connection.getMetaData();
@@ -1249,7 +1200,6 @@ public class MainFrame extends javax.swing.JFrame {
     }
     public void updateTables(String username){
         String classesTable = "CLASSES-" + username;
-        databaseURL = "jdbc:derby:C:/Users/milky/DerbyDB/gradecalc";
         try{
             connection = DriverManager.getConnection(databaseURL);
             rs = statement.executeQuery("SELECT * FROM \"" + classesTable + "\"");
@@ -1382,7 +1332,6 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
     public void connect(){
-        databaseURL = "jdbc:derby:C:/Users/milky/DerbyDB/gradecalc";
         try{
             connection = DriverManager.getConnection(databaseURL);
             System.out.println("Successfully connected to database");
@@ -1401,9 +1350,9 @@ public class MainFrame extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
@@ -1413,71 +1362,16 @@ public class MainFrame extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainFrame().setVisible(true);
             }
         });
     }
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addButton;
-    private javax.swing.JButton addClassButton;
-    private javax.swing.JTextField categoryInput;
-    private javax.swing.JLabel categoryLabel;
-    private javax.swing.JList<String> categoryList;
-    private javax.swing.JScrollPane categoryScrollPanel;
-    private javax.swing.JList<String> classList;
-    private javax.swing.JLabel classListLabel;
-    private javax.swing.JScrollPane classListScrollPanel;
-    private javax.swing.JTextField classNameField;
-    private javax.swing.JTextArea editAddClassGradeDisplayText;
-    private javax.swing.JLabel editAddClassGradeLabel;
-    private javax.swing.JPanel editAddClassScreen;
-    private javax.swing.JButton editAddGoBack;
-    private javax.swing.JButton editClassButton;
-    private javax.swing.JLabel gpaLabel;
-    private javax.swing.JTextField gradeInput;
-    private javax.swing.JLabel gradeLabel;
-    private javax.swing.JList<String> gradeList;
-    private javax.swing.JScrollPane gradeScrollPanel;
-    private javax.swing.JPanel homeScreen;
-    private javax.swing.JButton inEnterButton;
-    private javax.swing.JButton inGoBack;
-    private javax.swing.JPasswordField inPasswordField;
-    private javax.swing.JLabel inPasswordLabel;
-    private javax.swing.JTextField inUsernameField;
-    private javax.swing.JLabel inUsernameLabel;
-    private javax.swing.JButton removeButton;
-    private javax.swing.JButton removeClassButton;
-    private javax.swing.JButton signinButton;
-    private javax.swing.JPanel signinScreen;
-    private javax.swing.JLabel signinTitle;
-    private javax.swing.JButton signoutButton;
-    private javax.swing.JButton signupButton;
-    private javax.swing.JPanel signupScreen;
-    private javax.swing.JLabel sigupTitle;
-    private javax.swing.JButton upGoBack;
-    private javax.swing.JTextField upNameField;
-    private javax.swing.JLabel upNameLabel;
-    private javax.swing.JPasswordField upPasswordField;
-    private javax.swing.JLabel upPasswordLabel;
-    private javax.swing.JButton upRegisterButton;
-    private javax.swing.JTextField upUsernameField;
-    private javax.swing.JLabel upUsernameLabel;
-    private javax.swing.JButton updateButton;
-    private javax.swing.JTextField weightInput;
-    private javax.swing.JLabel weightLabel;
-    private javax.swing.JList<String> weightList;
-    private javax.swing.JScrollPane weightScrollPanel;
-    private javax.swing.JLabel welcomeNameLabel;
-    private javax.swing.JPanel welcomeScreen;
-    private javax.swing.JLabel welcomeTitle;
-    // End of variables declaration//GEN-END:variables
 }
